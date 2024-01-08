@@ -114,3 +114,37 @@ class ShyTriangle extends Triangle2 {
     return "(runs and hides)";
   }
 }
+
+function fakeApi(user = "nick") {
+  const someData = [
+    {
+      user: "nick",
+      id: "2432",
+      created: "2923-2-1",
+    },
+
+    {
+      user: "alfred",
+      id: "1111",
+      created: "1922-11-1",
+    },
+  ];
+
+  return JSON.stringify(...someData.filter((u) => u.user == user));
+}
+
+let debounceTimeout;
+let inputTimeoutMS = 1000;
+
+const searchInput = document.querySelector("#search");
+
+searchInput.addEventListener("input", function () {
+  // kill the timeout of the _last_ input event
+  clearTimeout(debounceTimeout);
+
+  // save the current timeout in debounceTimeout
+  debounceTimeout = setTimeout(() => {
+    const result = fakeApi(searchInput.value);
+    console.log(result);
+  }, inputTimeoutMS);
+});
